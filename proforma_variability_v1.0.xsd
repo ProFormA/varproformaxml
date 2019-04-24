@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="urn:proforma:variability:v1.0" xmlns:v="urn:proforma:variability:v1.0" xmlns:tns="urn:proforma:variability:v1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="cvListVp" type="tns:cvListVp"/>
+
+  <xs:element name="cvvp" type="tns:cvvp"/>
+
+  <xs:element name="templateSpec" type="tns:templateSpec"/>
+
+  <xs:element name="varSpecRoot" type="tns:varSpecRoot"/>
+
+  <xs:complexType name="childRefRef">
+    <xs:sequence/>
+    <xs:attribute name="ref" type="xs:string" use="required"/>
+    <xs:attribute name="subRef" type="xs:string"/>
+    <xs:attribute name="type" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="cv">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="integer" type="tns:vi"/>
+        <xs:element name="double" type="tns:vd"/>
+        <xs:element name="string" type="tns:vs"/>
+        <xs:element name="boolean" type="tns:vb"/>
+        <xs:element name="character" type="tns:vc"/>
+        <xs:element name="table" type="tns:vt"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="vi">
+    <xs:restriction base="xs:int"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="vd">
+    <xs:restriction base="xs:double"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="vs">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="vb">
+    <xs:restriction base="xs:boolean"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="vc">
+    <xs:restriction base="xs:unsignedShort"/>
+  </xs:simpleType>
+
+  <xs:complexType name="vt">
+    <xs:sequence>
+      <xs:choice minOccurs="0">
+        <xs:element name="spec" type="tns:varSpecNodeTable"/>
+        <xs:element name="value" type="tns:cvList"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecNodeTable">
+    <xs:complexContent>
+      <xs:extension base="tns:varSpecReorderingNode">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecReorderingNode" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="tns:varSpecInnerNode">
+        <xs:sequence>
+          <xs:element name="key" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecInnerNode" abstract="true">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="val" type="tns:varSpecLeafVal"/>
+        <xs:element name="collectGroup" type="tns:varSpecNodeCollectGroup"/>
+        <xs:element name="combineGroup" type="tns:varSpecNodeCombineGroup"/>
+        <xs:element name="combine" type="tns:varSpecLeafCombine"/>
+        <xs:element name="collect" type="tns:varSpecLeafCollect"/>
+        <xs:element name="range" type="tns:varSpecLeafRange"/>
+        <xs:element name="define" type="tns:varSpecNodeDef"/>
+        <xs:element name="ref" type="tns:varSpecLeafRef"/>
+        <xs:element name="derive" type="tns:varSpecLeafDerivation"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecLeafVal">
+    <xs:sequence>
+      <xs:choice minOccurs="0">
+        <xs:element name="integer" type="tns:vi"/>
+        <xs:element name="double" type="tns:vd"/>
+        <xs:element name="string" type="tns:vs"/>
+        <xs:element name="boolean" type="tns:vb"/>
+        <xs:element name="character" type="tns:vc"/>
+        <xs:element name="table" type="tns:vt"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecNodeCollectGroup">
+    <xs:complexContent>
+      <xs:extension base="tns:varSpecReorderingNode">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecNodeCombineGroup">
+    <xs:complexContent>
+      <xs:extension base="tns:varSpecReorderingNode">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecLeafCombine">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="integer" type="tns:vi"/>
+        <xs:element name="double" type="tns:vd"/>
+        <xs:element name="string" type="tns:vs"/>
+        <xs:element name="boolean" type="tns:vb"/>
+        <xs:element name="character" type="tns:vc"/>
+        <xs:element name="table" type="tns:vt"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecLeafCollect">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="integer" type="tns:vi"/>
+        <xs:element name="double" type="tns:vd"/>
+        <xs:element name="string" type="tns:vs"/>
+        <xs:element name="boolean" type="tns:vb"/>
+        <xs:element name="character" type="tns:vc"/>
+        <xs:element name="table" type="tns:vt"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecLeafRange">
+    <xs:sequence>
+      <xs:choice minOccurs="0">
+        <xs:element name="firstInteger" type="tns:vi"/>
+        <xs:element name="firstDouble" type="tns:vd"/>
+        <xs:element name="firstCharacter" type="tns:vc"/>
+      </xs:choice>
+      <xs:choice minOccurs="0">
+        <xs:element name="lastInteger" type="tns:vi"/>
+        <xs:element name="lastDouble" type="tns:vd"/>
+        <xs:element name="lastCharacter" type="tns:vc"/>
+      </xs:choice>
+      <xs:element name="count" type="xs:long" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecNodeDef">
+    <xs:complexContent>
+      <xs:extension base="tns:varSpecReorderingNode">
+        <xs:sequence/>
+        <xs:attribute name="id" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecLeafRef">
+    <xs:sequence/>
+    <xs:attribute name="id" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecLeafDerivation">
+    <xs:sequence>
+      <xs:element name="jsSource" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="aggregateType" type="tns:derivativeAggregateType" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="varSpecRoot">
+    <xs:complexContent>
+      <xs:extension base="tns:varSpecInnerNode">
+        <xs:sequence>
+          <xs:element name="cvp" type="tns:cvp" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="cvp">
+    <xs:sequence>
+      <xs:element name="vp" type="tns:vp" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="vp">
+    <xs:complexContent>
+      <xs:extension base="tns:vpType">
+        <xs:sequence/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="accuracy" type="xs:double"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="vpType">
+    <xs:sequence>
+      <xs:element name="cvp" type="tns:cvp" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="type" type="tns:vpT" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="cvList">
+    <xs:sequence>
+      <xs:element name="elements" type="tns:cv" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cvListVp">
+    <xs:sequence>
+      <xs:element name="cvp" type="tns:cvp" minOccurs="0"/>
+      <xs:element name="cv" type="tns:cv" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cvvp">
+    <xs:sequence>
+      <xs:element name="cvp" type="tns:cvp" minOccurs="0"/>
+      <xs:element name="cv" type="tns:cv" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="matArtifact">
+    <xs:sequence>
+      <xs:element name="fileId" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="path" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="refs" type="tns:childRefRef" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="artifactType" type="tns:mat-artifact-type" use="required"/>
+    <xs:attribute name="dataType" type="tns:vpT"/>
+    <xs:attribute name="operatesOnTaskXml" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="matArtifacts">
+    <xs:sequence>
+      <xs:element name="matArtifact" type="tns:matArtifact" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="materialization">
+    <xs:sequence>
+      <xs:element name="artifactId" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="methodId" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="materializations">
+    <xs:sequence>
+      <xs:element name="materialization" type="tns:materialization" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="matMethod">
+    <xs:sequence>
+      <xs:element name="restrictVp" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="methodType" type="tns:mat-method-type" use="required"/>
+    <xs:attribute name="prefix" type="xs:string"/>
+    <xs:attribute name="suffix" type="xs:string"/>
+    <xs:attribute name="operator" type="tns:mat-method-operator"/>
+  </xs:complexType>
+
+  <xs:complexType name="matMethods">
+    <xs:sequence>
+      <xs:element name="matMethod" type="tns:matMethod" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="matSpec">
+    <xs:sequence>
+      <xs:element name="matArtifacts" type="tns:matArtifacts"/>
+      <xs:element name="matMethods" type="tns:matMethods"/>
+      <xs:element name="materializations" type="tns:materializations"/>
+      <xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="templateSpec">
+    <xs:sequence>
+      <xs:element name="varSpec" type="tns:varSpecRoot"/>
+      <xs:element name="defaultValue" type="tns:cv"/>
+      <xs:element name="matSpec" type="tns:matSpec"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="derivativeAggregateType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="value"/>
+      <xs:enumeration value="collection"/>
+      <xs:enumeration value="range"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="vpT">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="integer"/>
+      <xs:enumeration value="character"/>
+      <xs:enumeration value="double"/>
+      <xs:enumeration value="string"/>
+      <xs:enumeration value="boolean"/>
+      <xs:enumeration value="table"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="mat-artifact-type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="task-xml"/>
+      <xs:enumeration value="file-names"/>
+      <xs:enumeration value="attached-txt-file-contents"/>
+      <xs:enumeration value="file-existences"/>
+      <xs:enumeration value="grading-node-existences"/>
+      <xs:enumeration value="grading-hints-weights"/>
+      <xs:enumeration value="other"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="mat-method-type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="set-vp-value"/>
+      <xs:enumeration value="arithmetic-operation"/>
+      <xs:enumeration value="mustache"/>
+      <xs:enumeration value="other"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="mat-method-operator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="add"/>
+      <xs:enumeration value="sub"/>
+      <xs:enumeration value="mul"/>
+      <xs:enumeration value="div"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
+
