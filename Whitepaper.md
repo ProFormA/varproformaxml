@@ -69,7 +69,7 @@ A variable programming task is a task template that is defined by a zip archive 
 
 The file `tpl.xml` (*tpl* is an abbreviation for *template*) contains a *templateSpec* element as the root element. This element includes the following child elements (all mandatory):
 - a *varSpec* element specifies the variation points and the set of all valid combinations of variation point values ([section 2.3](#23-specification-of-all-valid-variants-of-all-variation-points-of-a-task-template)), 
-- a *defaultValue* element specifies a valid combination of variation point values ​​as default ([section 2.2](#22-variant-variation-point-values)), 
+- a *defaultValue* element specifies a valid combination of variation point values ​​as default ([section 2.2](#22-variant---variation-point-values)), 
 - a *matSpec* element specifies the materializations, i. e. how to generate a particular task variant from a valid combination of variation point values ([section 3](#3-materialization-specification)). 
 
 
