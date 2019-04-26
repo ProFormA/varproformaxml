@@ -43,14 +43,14 @@ Both of the above task variants are specializations of the following task *templ
 
 The following table shows the variation points, their meanings, and their value in both of the above variants.
 
-| variation point | meaning                                                | data type | variant A     | variant B            |
-|-----------------|--------------------------------------------------------|-----------|---------------|----------------------|
-| class           | class name                                             | string    | "Program"     | "Welcome"            |
-| param           | should method have a parameter?                        | boolean   | false         | true                 |
-| msg             | Output message                                         | string    | "Hello world" | "Nice to meet you, " |
-| comment         | should method get a javadoc comment                    | boolean   | false         | true                 |
-| weight          | factor to be applied to compile and junit test weights | double    | 1.25          | 1.0                  |
-| difficulty      | how difficult is the variant?                          | double    | 0.8           | 1.4                  |
+| variation point | meaning                                                | data type | variant A     | variant B                 |
+|-----------------|--------------------------------------------------------|-----------|---------------|---------------------------|
+| class           | class name                                             | string    | "Program"     | "Welcome"                 |
+| param           | should method have a parameter?                        | boolean   | false         | true                      |
+| msg             | Output message                                         | string    | "Hello world" | "Nice to meet you,&nbsp;" |
+| comment         | should method get a javadoc comment                    | boolean   | false         | true                      |
+| weight          | factor to be applied to compile and junit test weights | double    | 1.25          | 1.0                       |
+| difficulty      | how difficult is the variant?                          | double    | 0.8           | 1.4                       |
 
 One of the problems in specifying variable programming tasks is, that the variation point values depend on each other. Later in this white paper we will deal with this and propose a compact specification of all valid variants of all variation points of a task template.
 
