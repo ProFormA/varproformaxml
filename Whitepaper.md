@@ -476,12 +476,12 @@ We illustrate materialization artifacts for the previous example. The following 
 
 ### 3.4 Materialization methods
 
-A *mat-method* element has mandatory *id* and *method-type* attributes. Currently the following method-type are available:
+A *mat-method* element has mandatory *id* and *method-type* attributes. Currently the following method-types are available:
 
 - *mustache*: denotes the search-and-replace operation performed by the mustache template engine. The mustache is configured by optional *prefix* and *suffix* attributes. These attributes should specify a two-character prefix and a two-character suffix. If prefix or suffix are missing, the defaults are `{{` and `}}`, respectively.
 - *set-vp-value*: denotes the operation of writing the actual value of a variation point to the artifact. The selected variation point should be specified in the *restrict-vp* child element. With this operation we can realize a file deletion operation, if we connect a *file-existences* artifact with a boolean variation point.
 - *arithmetic-operation*: denotes the operation of adding, multiplying, etc. the value of a specified variation point to an artifact. This method reasonably can be used together with artifacts of a numeric type like the *grading-hints-weights* artifact. The selected variation point should be specified in the *restrict-vp* child element. With this operation we can realize the grading weights modification of the compile and JUnit tests in case of task variant A of the introductory example.
-*other*: This is an extension point for any Grader-specific methods.
+- *other*: This is an extension point for any Grader-specific methods.
 
 ### 3.5 Materialization methods of the example
 
@@ -534,9 +534,9 @@ The *mat-spec* element has three child elements:
 - *mat-methods*: includes all *mat-method* elements
 - *materializations*: includes all *materialization* elements
 
-When an LMS, a middleware or a Grader executes the specifications in the *mat-spec* element, it is important to note, that the `task.xml` file from the task template usually is not a valid XML file. This is, because there might be mustache-statements in `task.xml` that corrupt the XML wellformedness. The *artifact-type*s of [section](#31-materialization-artifacts) differ in their dependency on a valid `task.xml` file. All but the first artifact type `task-xml` do include references to information that is stored in the `task.xml` file. Hence, artifacts need to be materialized in proper order: 
+When an LMS, a middleware or a Grader executes the specifications in the *mat-spec* element, it is important to note, that the `task.xml` file from the task template usually is not a valid XML file. This is, because there might be mustache-statements in `task.xml` that corrupt the XML wellformedness. The *artifact-type*s of [section 3.1](#31-materialization-artifacts) differ in their dependency on a valid `task.xml` file. All but the first artifact type *task-xml* do include references to information that is stored in the `task.xml` file. Hence, artifacts need to be materialized in proper order: 
 1. In a first phase the *task-xml* artifact must get materialized, so that the resulting materialized `task.xml` file can be loaded as a valid XML file. 
-2. After that in a second phase, the other artifacts are materialized. The references from the second phase's artifacts (*file-id*, *test-ref*, etc.) to task elements are interpreted as references to elements of the materialized version of the `task.xml`.
+2. After that in a second phase, the other artifacts are materialized. The references from the second phase's artifacts (*file-id*, *test-ref*, etc.) to task elements are interpreted as references to elements of the materialized version of the `task.xml`, that has been created at the end of the first phase.
 
 ### 3.7 Grader-specific materializations
 
@@ -551,19 +551,13 @@ The above artifacts and methods might not suffice the requirements of any progra
 
 ## 4 Task instances
 
-A task template must be converted to a specific task variant by 
-1. selecting a variant value for each variation point and by
-2. applying the materializations to the task template.
-
-The resulting task is also called an *instance*. A task instance should include the values of all variation points in order to allow a Grader to access the values e. g. for reporting purposes.
-
-In this specification we propose to include the variation points and their selected values as part of a task instance's `task.xml` file in the *meta-data* section. The meta-data element should include a *cvvp* element, that has the following content:
+When materializing a task template, the resulting task instance should include the values of all variation points in order to allow a Grader to access the values e. g. for reporting purposes. In this specification we propose to include the variation points and their selected values as part of a task instance's `task.xml` file in the *meta-data* section. The meta-data element should include a *cvvp* element, that has the following content:
 - a *cvp* element specifying the variation points
-- a *cv* element specifying the values.
+- a *cv* element specifying the selected values.
 
 ### 4.1 Example
 
-The `task.xml` file if task variant A of out introductory example includes the following XML fragment:
+The `task.xml` file of task variant A of our introductory example includes the following XML fragment:
 
 ```xml
   <p:meta-data>
